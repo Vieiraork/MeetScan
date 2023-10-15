@@ -12,5 +12,10 @@
 */
 
 Route::prefix('usuarios')->group(function() {
-    Route::get('/', 'UsuariosController@index');
+    Route::get('/', 'UsuariosController@index')->name('usuarios.index');
+    Route::get('/create', 'UsuariosController@create')->name('usuarios.create');
+    Route::post('/store', 'UsuariosController@store')->name('usuarios.store');
+    Route::get('/edit', 'UsuariosController@edit')->name('usuarios.edit');
+    Route::post('/update', 'UsuariosController@update')->name('usuarios.update');
+    Route::post('/search', 'UsuariosController@search')->name('usuarios.search');
 });

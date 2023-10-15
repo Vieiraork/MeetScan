@@ -1,0 +1,13 @@
+{
+    "name": "Codigos",
+    "alias": "codigos",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Codigos\\Providers\\CodigosServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

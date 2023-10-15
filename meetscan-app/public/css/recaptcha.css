@@ -1,0 +1,116 @@
+.recupera-senha {
+    float: left;
+}
+
+.primeiro-acesso {
+    float: right;
+}
+@media (max-width: 768px) {
+    .g-recaptcha {
+        transform:scale(1.04);
+        -webkit-transform:scale(1.04);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+
+    .recupera-senha {
+        width: 100%;
+        float: none;
+        margin-bottom: 20px;
+    }
+
+    .primeiro-acesso {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media (max-width: 701px) {
+    .g-recaptcha {
+        transform:scale(0.98);
+        -webkit-transform:scale(0.98);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 687px) {
+    .g-recaptcha {
+        transform:scale(0.96);
+        -webkit-transform:scale(0.96);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 669px) {
+    .g-recaptcha {
+        transform:scale(0.94);
+        -webkit-transform:scale(0.94);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 630px) {
+    .g-recaptcha {
+        transform:scale(0.89);
+        -webkit-transform:scale(0.89);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 540px) {
+    .g-recaptcha {
+        transform:scale(0.76);
+        -webkit-transform:scale(0.76);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 520px) {
+    .g-recaptcha {
+        transform:scale(0.70);
+        -webkit-transform:scale(0.70);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 414px) {
+    .g-recaptcha {
+        transform:scale(0.56);
+        -webkit-transform:scale(0.56);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 411px) {
+    .g-recaptcha {
+        transform:scale(0.55);
+        -webkit-transform:scale(0.55);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .g-recaptcha {
+        transform:scale(0.46);
+        -webkit-transform:scale(0.46);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
+
+@media (max-width: 320px) {
+    .g-recaptcha {
+        transform:scale(0.39);
+        -webkit-transform:scale(0.39);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+}
