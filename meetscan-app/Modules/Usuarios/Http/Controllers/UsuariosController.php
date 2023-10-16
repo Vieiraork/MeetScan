@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Usuarios\Entities\Perfil;
+use Modules\Usuarios\Entities\Usuario;
 use Modules\Usuarios\Http\Service\UsuariosService;
 
 class UsuariosController extends Controller
@@ -52,7 +53,9 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        return view('usuarios::show');
+        $usuario = Usuario::with('perfil')->where('id_usuarios', '=', $id)->first();
+
+        return view('usuarios::show', compact('usuario'));
     }
 
     /**
@@ -89,5 +92,10 @@ class UsuariosController extends Controller
     public function search(Request $request)
     {
         return $this->service->search($request);
+    }
+
+    public function change($id)
+    {
+        return $this->service->change($id);
     }
 }

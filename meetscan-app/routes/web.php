@@ -26,11 +26,11 @@ Route::group(['middleware' => ['web']], function () {
 Route::get('/register', 'LoginController@create')->name('admin.create');
 Route::post('/register', 'LoginController@store')->name('admin.store');
 
-// Route::group(['middleware' => ['auth']], function () {
-    
-// });
-
-Route::prefix('home')->group(function () {
-    Route::get('/', 'HomeController@index')->name('home'); 
+Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('home')->group(function () {
+        Route::get('/', 'HomeController@index')->name('home'); 
+    });
 });
+
+
 

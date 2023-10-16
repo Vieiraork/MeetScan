@@ -2,6 +2,7 @@
 
 namespace Modules\Usuarios\Http\Service;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Usuarios\Entities\Usuario;
@@ -18,6 +19,7 @@ class UsuariosService
         } catch (\Exception $e) {
             DB::rollBack();
             Alert::alert('Erro', 'Não foi possível cadastrar o usuário, verifique', 'error');
+            return back()->withInput();
         }
     }
 
@@ -64,12 +66,26 @@ class UsuariosService
         return json_encode($result);
     }
 
-    public function changeStatus()
+    public function change($id)
     {
         try {
-            
-        } catch (\Throwable $th) {
-            //throw $th;
+            DB::beginTransaction();
+            $usuario = Usuario::where('id_usuarios', '=', $id)->first();
+
+            $st_status = $usuario->st_status == 'A' ? 'I' : 'A';
+
+            Usuario::where('id_usuarios', '=', $id)->update([
+                'st_status'    => $st_status,
+                'dt_alteracao' => Carbon::now()
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::alert('Erro', 'Não foi possível alterar o status do usuário', 'error');
+            return back();
         }
+
+        Alert::alert('Sucesso', 'Status do usuário alterado com sucesso', 'success');
+        return back();
     }
 }

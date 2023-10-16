@@ -51,6 +51,7 @@
                     </div>
                 </form>
                 <input type="hidden" name="searchUsers" id="searchUsers" value="{{ route('usuarios.search') }}">
+
                 <div class="row float-right">
                     <div class="col-md-12">
                         <a href="#" class="btn btn-success" title="Cadastrar novo usuário">Novo Usuário</a>
@@ -65,12 +66,13 @@
             <div class="tableContent">
                 <table class="table table-striped table-sm" id="tbUsers">
                     <thead class="bg-primary">
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Perfil</th>
-                        <th>Data Cadastro</th>
-                        <th>Ações</th>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Nome</th>
+                        <th scope="col" class="text-center">E-mail</th>
+                        <th scope="col" class="text-center">Perfil</th>
+                        <th scope="col" class="text-center">Data Cadastro</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Ações</th>
                     </thead>
                     <tbody></tbody>
                 </table>

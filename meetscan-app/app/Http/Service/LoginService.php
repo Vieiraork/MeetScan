@@ -5,6 +5,8 @@ namespace App\Http\Service;
 use App\Helpers\Helpers;
 use App\Http\Requests\AdminRegisterRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Usuarios\Entities\Usuario;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -31,6 +33,25 @@ class LoginService
         }
 
         Alert::alert('', 'Usuário administrador registrado com sucesso', 'success');
+        return redirect()->route('login');
+    }
+
+    public function login(Request $request)
+    {
+        $usuario = Usuario::where('ds_email', '=', $request->ds_email)->first();
+
+        if ($usuario) {
+            if (Helpers::checkIfHashIsEqual($usuario->ds_senha, $request->ds_senha)) {
+                Auth::login($usuario);
+                Alert::toast("Bem vindo(a) {$usuario->no_usuario}!", 'success');
+                return redirect()->route('home');
+            }
+
+            Alert::alert('Erro', 'Credenciais inválidas, por favor, verifique!', 'error');
+            return back()->withInput();
+        }
+
+        Alert::alert('Erro', 'E-mail não encontrado, por favor, ferique!', 'error');
         return redirect()->route('login');
     }
 }
