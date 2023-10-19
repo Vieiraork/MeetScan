@@ -2,8 +2,8 @@
 #include <ESP8266WebServer.h>
 
 
-const char* rede  = "WILLIAM OIFIBRA";
-const char* senha = "0322231628";
+const char* rede  = "";
+const char* senha = "";
 
 IPAddress ip(192, 168, 100, 2);
 IPAddress gateway(192, 168, 100, 1);
