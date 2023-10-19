@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Usuarios\Http\Service;
+namespace Modules\Usuarios\Http\Services;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

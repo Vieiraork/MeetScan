@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Usuarios\Entities\Perfil;
 use Modules\Usuarios\Entities\Usuario;
-use Modules\Usuarios\Http\Service\UsuariosService;
+use Modules\Usuarios\Http\Services\UsuariosService;
 
 class UsuariosController extends Controller
 {
@@ -76,17 +76,7 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        return $this->service->update($request, $id);
     }
 
     public function search(Request $request)

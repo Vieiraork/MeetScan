@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
+use Modules\Codigos\Entities\Codigo;
 
 class Usuario extends User
 {
@@ -49,5 +50,10 @@ class Usuario extends User
     public function perfil()
     {
         return $this->hasOne(Perfil::class, 'cd_perfil', 'cd_perfil');
+    }
+
+    public function codigo()
+    {
+        return $this->hasOne(Codigo::class, 'id_usuarios', 'id_usuario');
     }
 }
