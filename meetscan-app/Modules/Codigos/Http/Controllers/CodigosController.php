@@ -5,9 +5,15 @@ namespace Modules\Codigos\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Codigos\Http\Services\CodigosService;
 
 class CodigosController extends Controller
 {
+    public function __construct(CodigosService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -33,7 +39,7 @@ class CodigosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->service->store($request);
     }
 
     /**
@@ -64,7 +70,7 @@ class CodigosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->service->update($request, $id);
     }
 
     /**
@@ -74,6 +80,6 @@ class CodigosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->service->destroy($id);
     }
 }
