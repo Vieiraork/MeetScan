@@ -1,0 +1,13 @@
+{
+    "name": "Anexos",
+    "alias": "anexos",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Anexos\\Providers\\AnexosServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
