@@ -11,6 +11,15 @@
 |
 */
 
-Route::prefix('anexos')->group(function() {
-    Route::get('/', 'AnexosController@index');
+Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('anexos')->group(function() {
+        Route::get('/', 'AnexosController@index')->name('anexos.index');
+        Route::get('/create', 'AnexosController@create')->name('anexos.create');
+        Route::post('/store', 'AnexosController@store')->name('anexos.store');
+        Route::get('/edit/{id}', 'AnexosController@edit')->name('anexos.edit');
+        Route::post('/update/{id}', 'AnexosController@update')->name('anexos.update');
+        Route::get('/show/{id}', 'AnexosController@show')->name('anexos.show');
+        Route::get('/destroy/{id}', 'AnexosController@destroy')->name('anexos.destroy');
+        Route::post('/search', 'AnexosController@search')->name('anexos.search');
+    });
 });

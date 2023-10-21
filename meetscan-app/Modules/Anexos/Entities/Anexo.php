@@ -9,7 +9,7 @@ class Anexo extends Model
 {
     protected $table      = 'tb_anexos';
     protected $primaryKey = 'id_anexo';
-    public $incrementing  = false;
+    public $incrementing  = true;
     public $timestamps    = false;
     protected $fillable   = [
         'ds_arquivo',

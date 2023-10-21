@@ -82,4 +82,9 @@ class AnexosController extends Controller
     {
         return $this->service->destroy($id);
     }
+
+    public function search(Request $request)
+    {
+        return $this->service->search($request);
+    }
 }
