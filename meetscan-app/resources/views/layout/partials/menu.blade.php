@@ -9,10 +9,10 @@
           <a class="nav-link" href="{{ route('usuarios.index') }}">Usuários</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="{{ route('anexos.index') }}">Anexos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="{{ route('codigos.index') }}">Codigos</a>
         </li>
       </ul>
       <span class="navbar-text">

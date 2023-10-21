@@ -19,6 +19,9 @@
 @section('content')
     <section class="content">
         <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Pesquisa de usuários</h3>
+            </div>
             <div class="card-body">
                 <form action="" method="POST" id="formSearchUsers">
                     @csrf
@@ -63,7 +66,10 @@
         </div>
 
         <div class="card card-outline card-primary table-responsive">
-            <div class="tableContent">
+            <div class="card-header">
+                <h3 class="card-title">Resultado da pesquisa</h3>
+            </div>
+            <div class="card-body">
                 <table class="table table-striped table-sm" id="tbUsers">
                     <thead class="bg-primary">
                         <th scope="col" class="text-center">#</th>

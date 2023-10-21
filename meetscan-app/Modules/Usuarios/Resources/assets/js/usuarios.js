@@ -23,7 +23,7 @@
 
                 showResults(JSON.parse(result));
             }
-        })
+        });
     }
 
     function showResults(result) {
