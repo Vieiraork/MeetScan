@@ -11,6 +11,15 @@
 |
 */
 
-Route::prefix('codigos')->group(function() {
-    Route::get('/', 'CodigosController@index');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('codigos')->group(function () {
+        Route::get('/', 'CodigosController@index')->name('codigos.index');
+        Route::get('/create', 'CodigosController@create')->name('codigos.create');
+        Route::post('/store', 'CodigosController@store')->name('codigos.store');
+        Route::get('/edit/{id}', 'CodigosController@edit')->name('codigos.edit');
+        Route::post('/update/{id}', 'CodigosController@update')->name('codigos.update');
+        Route::get('/show/{id}', 'CodigosController@show')->name('codigos.show');
+        Route::get('/destroy/{id}', 'CodigosController@destroy')->name('codigos.destroy');
+    });
 });
