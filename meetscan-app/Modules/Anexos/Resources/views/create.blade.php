@@ -11,14 +11,26 @@
 @section('content')
     <section class="content">
         <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Cadastro de arquivo</h3>
+            </div>
             <div class="card-body">
                 <form action="" method="POST">
                     <div class="row">
-                        <div class="col-md-3 form-group">
-                            <label for="ds_arquivo"></label>
+                        <div class="col-md-7 form-group">
+                            <label for="ds_arquivo">Descrição do arquivo</label>
                             <input type="text" name="ds_arquivo" id="ds_arquivo" class="form-control">
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
+                            <label for="id_usuario">Usuário</label>
+                            <select name="id_usuario" id="id_usuario" class="form-control">
+                                <option value="">Selecione</option>
+                                @foreach ($usuarios as $key => $value)
+                                    <option value="{{ $value }}">{{ $key }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label for="vl_arquivo">Arquivo</label>
                             <input type="file" name="vl_arquivo" id="vl_arquivo" class="form-control">
                         </div>

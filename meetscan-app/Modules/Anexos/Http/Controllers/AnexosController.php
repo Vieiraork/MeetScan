@@ -5,7 +5,10 @@ namespace Modules\Anexos\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Anexos\Http\Requests\AnexosCreateRequest;
+use Modules\Anexos\Http\Requests\AnexosUpdateRequest;
 use Modules\Anexos\Http\Services\AnexosService;
+use Modules\Usuarios\Entities\Usuario;
 
 class AnexosController extends Controller
 {
@@ -29,15 +32,17 @@ class AnexosController extends Controller
      */
     public function create()
     {
-        return view('anexos::create');
+        $usuarios = Usuario::pluck('id_usuarios', 'no_usuario');
+
+        return view('anexos::create', compact('usuarios'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param AnexosCreateRequest $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(AnexosCreateRequest $request)
     {
         return $this->service->store($request);
     }
@@ -64,11 +69,11 @@ class AnexosController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param AnexosUpdateRequest $request
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(AnexosUpdateRequest $request, $id)
     {
         return $this->service->update($request, $id);
     }

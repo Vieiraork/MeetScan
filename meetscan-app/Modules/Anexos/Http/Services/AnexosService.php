@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Anexos\Entities\Anexo;
+use Modules\Anexos\Http\Requests\AnexosCreateRequest;
+use Modules\Anexos\Http\Requests\AnexosUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AnexosService
 {
-    public function store(Request $request)
+    public function store(AnexosCreateRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -30,7 +32,7 @@ class AnexosService
         Alert::alert('Sucesso', '', 'success');
     }
 
-    public function update(Request $request, $id)
+    public function update(AnexosUpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
