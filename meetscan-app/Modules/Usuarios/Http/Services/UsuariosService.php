@@ -10,30 +10,47 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UsuariosService
 {
-    public function store()
+    public function store(Request $request)
     {
         try {
             DB::beginTransaction();
-
+            Usuario::create([
+                'no_usuario'  => $request->no_usuario,
+                'ds_email'    => $request->ds_email,
+                'ds_senha'    => $request->ds_senha,
+                'st_status'   => Usuario::ATIVO,
+                'dt_registro' => Carbon::now(),
+                'cd_perfil'   => Usuario::MORADOR
+            ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             Alert::alert('Erro', 'Não foi possível cadastrar o usuário, verifique', 'error');
             return back()->withInput();
         }
+
+        Alert::alert('Sucesso', 'Usuário cadastrado com sucesso', 'success');
+        return redirect()->route('usuarios.index');
     }
 
     public function update()
     {
         try {
             DB::beginTransaction();
-
+            Usuario::where('id_usuarios', '=', $id_usuario)->update([
+                'no_usuario' => $request->no_usuario,
+                'ds_email'   => $request->ds_email
+            ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             Alert::alert('Erro', 'Não foi possível atualizar o usuário', 'error');
             return back()->withInput();
         }
+
+        Alert::alert('Sucesso', 'Usuário editado com sucesso', 'success');
+        return redirect()->route('usuarios.index');
     }
 
     public function search(Request $request)

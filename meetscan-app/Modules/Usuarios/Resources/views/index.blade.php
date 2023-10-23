@@ -57,7 +57,7 @@
 
                 <div class="row float-right">
                     <div class="col-md-12">
-                        <a href="#" class="btn btn-success" title="Cadastrar novo usuário">Novo Usuário</a>
+                        <a href="{{ route('usuarios.create') }}" class="btn btn-success" title="Cadastrar novo usuário">Novo Usuário</a>
                         <button id="btnSearchUser" data-href="{{ route('usuarios.search') }}" title="Pesquisar usuários"
                         class="btn btn-primary">Pesquisar</button>
                     </div>
