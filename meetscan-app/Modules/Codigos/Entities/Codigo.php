@@ -9,7 +9,7 @@ class Codigo extends Model
 {
     protected $table      = 'tb_codigo_acesso';
     protected $primaryKey = 'id_codigo_acesso';
-    public $incrementing  = false;
+    public $incrementing  = true;
     public $timestamps    = false;
     protected $fillable   = [
         'ds_codigo_acesso',

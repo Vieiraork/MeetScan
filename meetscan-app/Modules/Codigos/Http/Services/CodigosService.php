@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Modules\Codigos\Entities\Codigo;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -18,7 +19,7 @@ class CodigosService
             Codigo::create([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
                 'dt_registro'      => Carbon::now(),
-                'id_usuario'       => Auth::user()->id_usuarios
+                'id_usuario'       => $request->id_usuario
             ]);
             DB::commit();
         } catch (\Exception $e) {
@@ -36,31 +37,33 @@ class CodigosService
             DB::beginTransaction();
             Codigo::where('id_codigo', '=', $id)->update([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
-                'id_usuario'       => Auth::user()->id_usuarios,
+                'id_usuario'       => $request->id_usuario,
                 'dt_alteracao'     => Carbon::now()
             ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::alert('Erro', '', 'error');
+            Alert::alert('Erro', 'Não foi possível atualizar o código', 'error');
             return back()->withInput();
         }
 
-        Alert::alert('Sucesso', '', 'success');
+        Alert::alert('Sucesso', 'Código atualizado com suceso', 'success');
+        return redirect()->route('codigos.index');
     }
 
     public function destroy($id_codigo)
     {
         try {
             DB::beginTransaction();
-
+            Codigo::destroy($id_codigo);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::alert('Erro', '', 'error');
+            Alert::alert('Erro', 'Não foi possível efetuar a exclusão do código', 'error');
             return back()->withInput();
         }
 
-        Alert::alert('Sucesso', '', 'success');
+        Alert::alert('Sucesso', 'Código exclído com sucesso', 'success');
+        return redirect()->route('codigos.index');
     }
 }

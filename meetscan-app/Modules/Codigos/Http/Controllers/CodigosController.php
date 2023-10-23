@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Codigos\Http\Services\CodigosService;
+use Modules\Usuarios\Entities\Usuario;
 
 class CodigosController extends Controller
 {
@@ -29,7 +30,9 @@ class CodigosController extends Controller
      */
     public function create()
     {
-        return view('codigos::create');
+        $usuarios = Usuario::where('cd_perfil', '=', Usuario::MORADOR)->pluck('id_usuarios', 'no_usuario');
+
+        return view('codigos::create', compact('usuarios'));
     }
 
     /**
