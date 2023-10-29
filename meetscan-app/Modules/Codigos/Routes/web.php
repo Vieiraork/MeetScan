@@ -21,5 +21,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', 'CodigosController@update')->name('codigos.update');
         Route::get('/show/{id}', 'CodigosController@show')->name('codigos.show');
         Route::get('/destroy/{id}', 'CodigosController@destroy')->name('codigos.destroy');
+        Route::post('/search', 'CodigosController@search')->name('codigos.search');
     });
 });

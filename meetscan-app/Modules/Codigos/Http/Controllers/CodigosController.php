@@ -5,6 +5,9 @@ namespace Modules\Codigos\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Codigos\Entities\Codigo;
+use Modules\Codigos\Http\Requests\CodigosCreateRequest;
+use Modules\Codigos\Http\Requests\CodigosUpdateRequest;
 use Modules\Codigos\Http\Services\CodigosService;
 use Modules\Usuarios\Entities\Usuario;
 
@@ -37,10 +40,10 @@ class CodigosController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param CodigosCreateRequest $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(CodigosCreateRequest $request)
     {
         return $this->service->store($request);
     }
@@ -52,7 +55,9 @@ class CodigosController extends Controller
      */
     public function show($id)
     {
-        return view('codigos::show');
+        $codigo = Codigo::with('usuario')->where('id_codigo_acesso', '=', $id)->first();
+
+        return view('codigos::show', compact('codigo'));
     }
 
     /**
@@ -62,16 +67,19 @@ class CodigosController extends Controller
      */
     public function edit($id)
     {
-        return view('codigos::edit');
+        $usuarios = Usuario::where('cd_perfil', '=', Usuario::MORADOR)->pluck('id_usuarios', 'no_usuario');
+        $codigo   = Codigo::where('id_codigo_acesso', '=', $id)->first();
+
+        return view('codigos::edit', compact('usuarios', 'codigo'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param CodigosUpdateRequest $request
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(CodigosUpdateRequest $request, $id)
     {
         return $this->service->update($request, $id);
     }
@@ -84,5 +92,10 @@ class CodigosController extends Controller
     public function destroy($id)
     {
         return $this->service->destroy($id);
+    }
+
+    public function search(Request $request)
+    {
+        return $this->service->search($request);
     }
 }

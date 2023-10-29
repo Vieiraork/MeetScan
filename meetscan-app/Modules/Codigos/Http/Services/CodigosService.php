@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Modules\Codigos\Entities\Codigo;
+use Modules\Codigos\Http\Requests\CodigosCreateRequest;
+use Modules\Codigos\Http\Requests\CodigosUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CodigosService
 {
-    public function store(Request $request)
+    public function store(CodigosCreateRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -24,14 +26,16 @@ class CodigosService
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::alert('Erro', '', 'error');
+            Alert::alert('Erro', 'Ocorreu um erro na atribuição de código para o usuário', 'error');
             return back()->withInput();
         }
 
-        Alert::alert('Sucesso', '', 'success');
+        Alert::alert('Sucesso', "Código $request->ds_codigo_acesso 
+        atraibuído ao usuário com sucesso", 'success');
+        return redirect()->route('codigos.index');
     }
 
-    public function update(Request $request, $id)
+    public function update(CodigosUpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
@@ -65,5 +69,31 @@ class CodigosService
 
         Alert::alert('Sucesso', 'Código exclído com sucesso', 'success');
         return redirect()->route('codigos.index');
+    }
+
+    public function search(Request $request)
+    {
+        $ds_codigo  = $request->ds_codigo;
+        $dt_inicio  = $request->dt_inicio;
+        $dt_fim     = $request->dt_fim;
+        $no_usuario = $request->no_usuario;
+
+        $query = Codigo::with('usuario');
+
+        $query->when($ds_codigo, function ($q) use ($ds_codigo) {
+            return $q->where('ds_codigo', 'LIKE', '%'.$ds_codigo.'%');
+        });
+
+        $query->when($dt_inicio && $dt_fim, function ($q) use ($dt_inicio, $dt_fim) {
+            return $q->whereBetween('dt_registro', [$dt_inicio, $dt_fim]);
+        });
+
+        $query->when($no_usuario, function ($q) use ($no_usuario) {
+            return $q->whereHas('usuario', function ($q) use ($no_usuario) {
+                return $q->where('no_usuario', 'LIKE', '%'.$no_usuario.'%');
+            });
+        });
+
+        return json_encode($query->get());
     }
 }
