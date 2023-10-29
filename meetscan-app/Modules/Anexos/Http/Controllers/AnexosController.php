@@ -2,9 +2,11 @@
 
 namespace Modules\Anexos\Http\Controllers;
 
+use DateTime;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Kreait\Firebase\Contract\Storage;
 use Modules\Anexos\Http\Requests\AnexosCreateRequest;
 use Modules\Anexos\Http\Requests\AnexosUpdateRequest;
 use Modules\Anexos\Http\Services\AnexosService;
@@ -12,9 +14,10 @@ use Modules\Usuarios\Entities\Usuario;
 
 class AnexosController extends Controller
 {
-    public function __construct(AnexosService $service)
+    public function __construct(AnexosService $service, Storage $storage)
     {
         $this->service = $service;
+        $this->storage = $storage;
     }
 
     /**
@@ -23,6 +26,11 @@ class AnexosController extends Controller
      */
     public function index()
     {
+        // $expire  = new DateTime('2023-12-31');
+        // $storage = $this->storage->getBucket()->object('Images/cafe.jpg');
+
+        // $image = $storage->signedUrl($expire);
+        // dd($image);
         return view('anexos::index');
     }
 
@@ -44,7 +52,7 @@ class AnexosController extends Controller
      */
     public function store(AnexosCreateRequest $request)
     {
-        return $this->service->store($request);
+        return $this->service->store($request, $this->storage);
     }
 
     /**

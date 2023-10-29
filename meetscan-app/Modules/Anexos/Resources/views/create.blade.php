@@ -15,7 +15,8 @@
                 <h3 class="card-title">Cadastro de arquivo</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST">
+                <form action="{{ route('anexos.store') }}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-md-7 form-group">
                             <label for="ds_arquivo">Descrição do arquivo</label>

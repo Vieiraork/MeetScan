@@ -26,7 +26,7 @@ class AnexosCreateRequest extends FormRequest
         return [
             'ds_arquivo' => 'nullable',
             'id_usuario' => 'required',
-            'vl_arquivo' => 'required|mime:jpg,png'
+            'vl_arquivo' => 'required'
         ];
     }
 
@@ -42,14 +42,4 @@ class AnexosCreateRequest extends FormRequest
             'vl_arquivo.required' => 'Selecione um arquivo de foto associado ao usuário'
         ];
     }
-
-    // /**
-    //  * Make custom validation
-    //  * 
-    //  * @return string
-    //  */
-    // public function validate($rules, ...$params)
-    // {
-        
-    // }
 }

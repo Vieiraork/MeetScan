@@ -2,34 +2,47 @@
 
 namespace Modules\Anexos\Http\Services;
 
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Storage;
 use Modules\Anexos\Entities\Anexo;
 use Modules\Anexos\Http\Requests\AnexosCreateRequest;
 use Modules\Anexos\Http\Requests\AnexosUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage as LaravelStorage;
 
 class AnexosService
 {
-    public function store(AnexosCreateRequest $request)
+    public function store(AnexosCreateRequest $request, Storage $storage)
     {
+        $image = $request->vl_arquivo;
+        LaravelStorage::disk('local')->put($image, 'Content');
+        // $file = $request->vl_arquivo.date('YmdHis');
+        dd($image);
+
         try {
             DB::beginTransaction();
-            Anexo::create([
-                'ds_arquivo' => $request->ds_arquivo,
-                'ds_link'    => $request->ds_link,
-                'dt_registro' => $request->dt_registro,
-                'id_usuario'  => Auth::user()->id_usuarios
-            ]);
+            $firebase_file = $this->uploadImageToFirebase($request, $storage);
+
+            // Anexo::create([
+            //     'ds_arquivo'  => $request->ds_arquivo,
+            //     'ds_link'     => $request->ds_link,
+            //     'dt_registro' => Carbon::now(),
+            //     'id_usuario'  => $request->id_usuario
+            // ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             Alert::alert('Erro', '', 'error');
             return back()->withInput();
         }
 
-        Alert::alert('Sucesso', '', 'success');
+        Alert::alert('Sucesso', 'Anexo assoiado ao usuário com sucesso', 'success');
+        return redirect()->route('anexos.index');
     }
 
     public function update(AnexosUpdateRequest $request, $id)
@@ -37,9 +50,7 @@ class AnexosService
         try {
             DB::beginTransaction();
             Anexo::where('id_anexo', '=', $id)->update([
-                'ds_arquivo'  => $request->ds_arquivo,
-                'ds_link'     => $request->ds_link,
-                'id_usuario'  => Auth::user()->id_usuarios
+                'ds_arquivo'  => $request->ds_arquivo
             ]);
             DB::commit();
         } catch (\Exception $e) {
@@ -85,5 +96,17 @@ class AnexosService
         $query->orderBy('id_anexo');
 
         return json_encode($query->get());
+    }
+
+    private function uploadImageToFirebase(AnexosCreateRequest $request, Storage $storage)
+    {
+        $file_name = $request->vl_arquivo.date('YmdHis');
+
+        try {
+            $storage->getBucket()->upload($file_name);
+
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
