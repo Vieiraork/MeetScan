@@ -5,9 +5,12 @@ namespace Modules\Usuarios\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Usuarios\Entities\Perfil;
 use Modules\Usuarios\Entities\Usuario;
+use Modules\Usuarios\Http\Requests\UsuarioUpdateRequest;
 use Modules\Usuarios\Http\Services\UsuariosService;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UsuariosController extends Controller
 {
@@ -65,16 +68,22 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        return view('usuarios::edit');
+        $usuario = Usuario::where('id_usuarios', '=', $id)->first();
+
+        if ($usuario->id_usuarios == Auth::user()->id_usuarios)
+            return view('usuarios::edit', compact('usuario'));
+
+        Alert::alert('Erro', "Não é possível editar o usuário $usuario->no_usuario");
+        return redirect()->route('usuarios.index');
     }
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param UsuarioUpdateRequest $request
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(UsuarioUpdateRequest $request, $id)
     {
         return $this->service->update($request, $id);
     }

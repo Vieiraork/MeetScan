@@ -54,6 +54,10 @@
                     </div>
                 </form>
                 <input type="hidden" name="searchUsers" id="searchUsers" value="{{ route('usuarios.search') }}">
+                <form id="destroyCodigo">
+                    @csrf
+                    <input type="hidden" name="id_codigo" id="id_codigo" value="">
+                </form>
 
                 <div class="row float-right">
                     <div class="col-md-12">

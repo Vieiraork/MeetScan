@@ -2,10 +2,12 @@
 
 namespace Modules\Usuarios\Http\Services;
 
+use App\Helpers\Helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Usuarios\Entities\Usuario;
+use Modules\Usuarios\Http\Requests\UsuarioUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UsuariosService
@@ -34,14 +36,19 @@ class UsuariosService
         return redirect()->route('usuarios.index');
     }
 
-    public function update()
+    public function update(UsuarioUpdateRequest $request, $id_usuario)
     {
+        $usuario = Usuario::where('id_usuarios', '=', $id_usuario)->first();
+
         try {
             DB::beginTransaction();
-            Usuario::where('id_usuarios', '=', $id_usuario)->update([
-                'no_usuario' => $request->no_usuario,
-                'ds_email'   => $request->ds_email
-            ]);
+            $usuario->no_usuario = $request->no_usuario;
+            $usuario->ds_email   = $request->ds_email;
+
+            if ($request->ds_senha)
+                $usuario->ds_senha = Helpers::returnHashString($request->ds_senha);
+
+            $usuario->update();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
