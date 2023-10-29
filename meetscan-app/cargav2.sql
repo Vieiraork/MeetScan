@@ -39,13 +39,6 @@ CREATE TABLE IF NOT EXISTS `meetscan`.`tb_perfil` (
   PRIMARY KEY (`cd_perfil`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `meetscan`.`tb_usuario_perfil` (
-  `id_usuario_perfil` INT AUTO_INCREMENT,
-  `id_perfil` INT NOT NULL,
-  `id_usuario` INT NOT NULL,
-  PRIMARY KEY (`id_usuario_perfil`),
-)
-
 
 -- -----------------------------------------------------
 -- Table `meetscan`.`tb_usuarios`
