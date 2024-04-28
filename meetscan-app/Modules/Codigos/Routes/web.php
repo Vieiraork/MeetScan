@@ -20,7 +20,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', 'CodigosController@edit')->name('codigos.edit');
         Route::post('/update/{id}', 'CodigosController@update')->name('codigos.update');
         Route::get('/show/{id}', 'CodigosController@show')->name('codigos.show');
-        Route::get('/destroy/{id}', 'CodigosController@destroy')->name('codigos.destroy');
+        Route::post('/destroy/{id}', 'CodigosController@destroy')->name('codigos.destroy');
         Route::post('/search', 'CodigosController@search')->name('codigos.search');
     });
 });
+
+Route::get('/api/codigos/{ds_codigo}', 'CodigosApiController@index');

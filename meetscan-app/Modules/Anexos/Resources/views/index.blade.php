@@ -30,6 +30,9 @@
                     </div>
                 </form>
                 <input type="hidden" name="searchAnexos" id="searchAnexos" value="{{ route('anexos.search') }}">
+                <input type="hidden" name="showAnexos" id="showAnexos" value="{{ route('anexos.show', 0) }}">
+                <input type="hidden" name="editAnexos" id="editAnexos" value="{{ route('anexos.edit', 0) }}">
+                <input type="hidden" name="destroyAnexos" id="destroyAnexos" value="{{ route('anexos.destroy', 0) }}">
                 <div class="row float-right">
                     <div class="col-md-12">
                         <a href="{{ route('anexos.create') }}" class="btn btn-success" title="Cadastrar novo usuário">Novo Anexo</a>
@@ -57,4 +60,7 @@
             </div>
         </div>
     </section>
+    <form id="formDeleteAnexos">
+        @csrf
+    </form>
 @endsection

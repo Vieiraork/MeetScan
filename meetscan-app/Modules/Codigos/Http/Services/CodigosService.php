@@ -20,8 +20,8 @@ class CodigosService
             DB::beginTransaction();
             Codigo::create([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
-                'dt_registro'      => Carbon::now(),
-                'id_usuario'       => $request->id_usuario
+                'dt_inclusao'      => Carbon::now(),
+                'id_usuario'       => Auth::user()->id_usuario
             ]);
             DB::commit();
         } catch (\Exception $e) {
@@ -39,9 +39,9 @@ class CodigosService
     {
         try {
             DB::beginTransaction();
-            Codigo::where('id_codigo', '=', $id)->update([
+            Codigo::where('id_codigo_acesso', '=', $id)->update([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
-                'id_usuario'       => $request->id_usuario,
+                'id_usuario'       => Auth::user()->id_usuario,
                 'dt_alteracao'     => Carbon::now()
             ]);
             DB::commit();
@@ -63,12 +63,16 @@ class CodigosService
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::alert('Erro', 'Não foi possível efetuar a exclusão do código', 'error');
-            return back()->withInput();
+            return json_encode([
+                'type' => 'error',
+                'msg'  => 'Não foi possível excluir o código'
+            ]);
         }
-
-        Alert::alert('Sucesso', 'Código exclído com sucesso', 'success');
-        return redirect()->route('codigos.index');
+        
+        return json_encode([
+            'type' => 'success',
+            'msg'  => 'Código excluído com sucesso'
+        ]);
     }
 
     public function search(Request $request)

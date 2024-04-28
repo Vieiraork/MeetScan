@@ -13,18 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', 'LoginController@index');
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login', 'LoginController@index')->name('login');
-    Route::post('/login', 'LoginController@login')->name('login');
+    Route::post('/login', 'LoginController@login')->name('login-post');
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 
-Route::get('/register', 'LoginController@create')->name('admin.create');
-Route::post('/register', 'LoginController@store')->name('admin.store');
+Route::prefix('admin')->group(function () {
+    Route::get('/create', 'LoginController@create')->name('admin.create');
+    Route::post('/store', 'LoginController@store')->name('admin.store');
+});
 
 Route::group(['middleware' => ['auth']], function () {
     Route::prefix('home')->group(function () {

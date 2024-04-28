@@ -17,9 +17,10 @@
                     <li class="list-group-item">Nome: <strong>{{ $usuario->no_usuario }}</strong></li>
                     <li class="list-group-item">Perfil: <strong>{{ $usuario->perfil->ds_perfil }}</strong></li>
                     <li class="list-group-item">Status: <strong>{{ $usuario->st_status == 'A' ? 'Ativo' : 'Inativo' }}</strong></li>
-                    <li class="list-group-item">Data de cadastro: {{ is_null($usuario->dt_registro) ? '' : date('d/m/Y H:i:s', strtotime($usuario->dt_registro)) }}</li>
+                    <li class="list-group-item">Data de cadastro: {{ is_null($usuario->dt_inclusao) ? '' : date('d/m/Y H:i:s', strtotime($usuario->dt_inclusao)) }}</li>
                     <li class="list-group-item">Data alteração: {{ is_null($usuario->dt_alteracao) ? '' : date('d/m/Y H:i:s', strtotime($usuario->dt_alteracao)) }}</li>
                 </ul>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group float-right">

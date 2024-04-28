@@ -26,7 +26,7 @@ class CodigosCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'ds_codigo_acesso' => 'required|min:8|max:8|unique:tb_codigo_acesso',
+            'ds_codigo_acesso' => 'required|min:9|max:9',
             'id_usuario'       => 'required'
         ];
     }
@@ -40,9 +40,8 @@ class CodigosCreateRequest extends FormRequest
     {
         return [
             'ds_codigo_acesso.required' => 'O campo Código é obrigatório',
-            'ds_codigo_acesso.min'      => 'O campo Código deve ter no mínimo 8 dígitos',
-            'ds_codigo_acesso.max'      => 'O campo Código deve ter no máximo 8 dígitos',
-            'ds_codigo_acesso.unique'   => 'O Código inserido já foi cadastrado para outro modador',
+            'ds_codigo_acesso.min'      => 'O campo Código deve ter no mínimo 9 dígitos',
+            'ds_codigo_acesso.max'      => 'O campo Código deve ter no máximo 9 dígitos',
             'id_usuario.required'       => 'O campo Usuário é obrigatório'
         ];
     }
@@ -55,6 +54,14 @@ class CodigosCreateRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        //
+        $codigo = Codigo::where('id_usuario', '=', $validator->attributes()['id_usuario'])->first();
+
+        $validator->after(function ($validator) use ($codigo) {
+            if (!is_null($codigo)) {
+                $validator->errors()->add('id_usuario', 'Não é possível associar mais de um código a um usuário');
+            }
+        });
+
+        return;
     }
 }

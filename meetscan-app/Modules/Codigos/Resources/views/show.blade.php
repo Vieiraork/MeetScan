@@ -16,9 +16,10 @@
                     <li class="list-group-item bg-primary"><strong>Código</strong></li>
                     <li class="list-group-item">Código: <strong>{{ $codigo->ds_codigo_acesso }}</strong></li>
                     <li class="list-group-item">Usuário: <strong>{{ $codigo->usuario->no_usuario }}</strong></li>
-                    <li class="list-group-item">Data de cadastro: {{ is_null($codigo->dt_registro) ? '' : date('d/m/Y H:i:s', strtotime($codigo->dt_registro)) }}</li>
+                    <li class="list-group-item">Data de cadastro: {{ is_null($codigo->dt_inclusao) ? '' : date('d/m/Y H:i:s', strtotime($codigo->dt_inclusao)) }}</li>
                     <li class="list-group-item">Data alteração: {{ is_null($codigo->dt_alteracao) ? '' : date('d/m/Y H:i:s', strtotime($codigo->dt_alteracao)) }}</li>
                 </ul>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group float-right">

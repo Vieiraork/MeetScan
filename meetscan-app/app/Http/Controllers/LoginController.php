@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helpers;
 use App\Http\Requests\AdminRegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Service\LoginService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
+    protected $service;
+    
     public function __construct(LoginService $service)
     {
         $this->service = $service;
@@ -22,7 +25,7 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         return $this->service->login($request);
     }

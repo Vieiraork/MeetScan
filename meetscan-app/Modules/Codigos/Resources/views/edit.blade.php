@@ -28,7 +28,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('codigos.store') }}" method="POST">
+                <form action="{{ route('codigos.update', $codigo->id_codigo_acesso) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group">

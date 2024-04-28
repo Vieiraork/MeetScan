@@ -12,10 +12,10 @@
 <section class="content">
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Cadastrar usuário</h3>
+            <h3 class="card-title">Editar usuário</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('usuarios.update', $usuario->id_usuarios) }}" method="POST">
+            <form action="{{ route('usuarios.update', $usuario->id_usuario) }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-4 form-group">

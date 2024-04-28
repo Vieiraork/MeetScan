@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Helpers\Helpers;
 use App\Http\Requests\AdminRegisterRequest;
+use App\Http\Requests\LoginRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,20 +24,21 @@ class LoginService
                 'ds_senha'    => Helpers::returnHashString($request->ds_senha),
                 'cd_perfil'   => Usuario::ADMIN,
                 'st_status'   => Usuario::ATIVO,
-                'dt_registro' => Carbon::now()
+                'dt_inclusao' => Carbon::now()
             ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::alert('', 'Não foi possível o cadastro de um novo usuário administrador', 'error');
+            dd($e);
+            Alert::alert('Erro', 'Não foi possível o cadastro de um novo usuário administrador', 'error');
             return redirect()->route('admin.create');
         }
 
-        Alert::alert('', 'Usuário administrador registrado com sucesso', 'success');
+        Alert::alert('Sucesso', 'Usuário administrador registrado com sucesso', 'success');
         return redirect()->route('login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $usuario = Usuario::where('ds_email', '=', $request->ds_email)->first();
 
@@ -51,7 +53,7 @@ class LoginService
             return back()->withInput();
         }
 
-        Alert::alert('Erro', 'E-mail não encontrado, por favor, ferique!', 'error');
+        Alert::alert('Erro', 'E-mail não encontrado, por favor, verique!', 'error');
         return redirect()->route('login');
     }
 }

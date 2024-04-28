@@ -13,13 +13,13 @@ class Codigo extends Model
     public $timestamps    = false;
     protected $fillable   = [
         'ds_codigo_acesso',
-        'dt_registro',
+        'dt_inclusao',
         'dt_alteracao',
         'id_usuario'
     ];
 
     public function usuario()
     {
-        return $this->hasOne(Usuario::class, 'id_usuarios', 'id_usuario');
+        return $this->hasOne(Usuario::class, 'id_usuario', 'id_usuario');
     }
 }

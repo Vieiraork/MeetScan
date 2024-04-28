@@ -13,10 +13,10 @@ class Usuario extends User
 {
     use Notifiable;
 
-    protected $table      = 'meetscan.tb_usuarios';
-    protected $primaryKey = 'id_usuarios';
+    protected $table      = 'meetscan.tb_usuario';
+    protected $primaryKey = 'id_usuario';
     protected $guard      = 'web';
-    public $incrementing  = false;
+    public $incrementing  = true;
     public $timestamps    = false;
 
     // Perfil de usuário
@@ -33,7 +33,7 @@ class Usuario extends User
         'ds_senha',
         'ds_token',
         'st_status',
-        'dt_registro',
+        'dt_inclusao',
         'dt_alteracao',
         'cd_perfil'
     ];
@@ -54,6 +54,6 @@ class Usuario extends User
 
     public function codigo()
     {
-        return $this->hasOne(Codigo::class, 'id_usuarios', 'id_usuario');
+        return $this->hasOne(Codigo::class, 'id_usuario', 'id_usuario');
     }
 }

@@ -30,9 +30,9 @@
         $('#tbUsers tbody>tr').remove();    
 
         $.each(result, function (key, value) {
-            let show = `/usuarios/show/${value.id_usuarios}`;
-            let changeStatus = `/usuarios/change/${value.id_usuarios}`;
-            let edit = `/usuarios/edit/${value.id_usuarios}`;
+            let show = `/usuarios/show/${value.id_usuario}`;
+            let changeStatus = `/usuarios/change/${value.id_usuario}`;
+            let edit = `/usuarios/edit/${value.id_usuario}`;
             let btnIcon  = value.st_status == 'A' ? 'ban' : 'check';
             let btnClass = value.st_status == 'A' ? 'danger' : 'success';
             let btnText  = value.st_status == 'A' ? 'Inativar' : 'Ativar';
@@ -43,7 +43,7 @@
             <a href="${changeStatus}" class="btn btn-${btnClass} btn-sm" title="${btnText} usuário"><i class="fa fa-${btnIcon}" aria-hidden="true"></i></a>
             `;
             let row = [`<tr>`];
-            row.push(`<td class='text-center'>${value.id_usuarios}</td>`);
+            row.push(`<td class='text-center'>${value.id_usuario}</td>`);
             row.push(`<td class='text-center'>${value.no_usuario}</td>`);
             row.push(`<td class='text-center'>${value.ds_email}</td>`);
             row.push(`<td class='text-center'>${value.perfil.ds_perfil}</td>`);

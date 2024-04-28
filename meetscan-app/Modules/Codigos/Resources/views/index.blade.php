@@ -39,6 +39,9 @@
                 <div class="carregar"></div>
                 <input type="hidden" name="searchCodigos" id="searchCodigos" 
                 value="{{ route('codigos.search') }}">
+                <input type="hidden" name="showCodigo" value="{{ route('codigos.show', 0) }}" id="showCodigo">
+                <input type="hidden" name="editCodigo" value="{{ route('codigos.edit', 0) }}" id="editCodigo">
+                <input type="hidden" name="destroyCodigo" value="{{ route('codigos.destroy', 0) }}" id="destroyCodigo">
                 <div class="row float-right">
                     <div class="col-md-12">
                         <a href="{{ route('codigos.create') }}" class="btn btn-success" 
@@ -68,4 +71,7 @@
             </div>
         </div>
     </section>
+    <form id="formDestroyCodigo">
+        @csrf
+    </form>
 @endsection

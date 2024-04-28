@@ -33,7 +33,7 @@ class CodigosController extends Controller
      */
     public function create()
     {
-        $usuarios = Usuario::where('cd_perfil', '=', Usuario::MORADOR)->pluck('id_usuarios', 'no_usuario');
+        $usuarios = Usuario::where('cd_perfil', '=', Usuario::MORADOR)->pluck('id_usuario', 'no_usuario');
 
         return view('codigos::create', compact('usuarios'));
     }

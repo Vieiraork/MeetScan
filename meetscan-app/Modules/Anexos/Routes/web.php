@@ -19,7 +19,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', 'AnexosController@edit')->name('anexos.edit');
         Route::post('/update/{id}', 'AnexosController@update')->name('anexos.update');
         Route::get('/show/{id}', 'AnexosController@show')->name('anexos.show');
-        Route::get('/destroy/{id}', 'AnexosController@destroy')->name('anexos.destroy');
+        Route::post('/destroy/{id}', 'AnexosController@destroy')->name('anexos.destroy');
         Route::post('/search', 'AnexosController@search')->name('anexos.search');
     });
 });

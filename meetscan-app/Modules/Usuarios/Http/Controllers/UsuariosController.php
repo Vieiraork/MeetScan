@@ -14,6 +14,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UsuariosController extends Controller
 {
+    protected $service;
+    
     public function __construct(UsuariosService $service)
     {
         $this->service = $service;
@@ -56,7 +58,7 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        $usuario = Usuario::with('perfil')->where('id_usuarios', '=', $id)->first();
+        $usuario = Usuario::with('perfil')->where('id_usuario', '=', $id)->first();
 
         return view('usuarios::show', compact('usuario'));
     }
@@ -68,9 +70,9 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        $usuario = Usuario::where('id_usuarios', '=', $id)->first();
+        $usuario = Usuario::where('id_usuario', '=', $id)->first();
 
-        if ($usuario->id_usuarios == Auth::user()->id_usuarios)
+        if ($usuario->id_usuario == Auth::user()->id_usuario)
             return view('usuarios::edit', compact('usuario'));
 
         Alert::alert('Erro', "Não é possível editar o usuário $usuario->no_usuario");

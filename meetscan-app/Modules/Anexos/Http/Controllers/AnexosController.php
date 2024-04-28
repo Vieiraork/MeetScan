@@ -6,18 +6,26 @@ use DateTime;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Kreait\Firebase\Contract\Auth;
 use Kreait\Firebase\Contract\Storage;
+use Modules\Anexos\Entities\Anexo;
 use Modules\Anexos\Http\Requests\AnexosCreateRequest;
 use Modules\Anexos\Http\Requests\AnexosUpdateRequest;
 use Modules\Anexos\Http\Services\AnexosService;
 use Modules\Usuarios\Entities\Usuario;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AnexosController extends Controller
 {
-    public function __construct(AnexosService $service, Storage $storage)
+    protected $service;
+    protected $storage;
+    protected $auth;
+    
+    public function __construct(AnexosService $service, Storage $storage, Auth $auth)
     {
         $this->service = $service;
         $this->storage = $storage;
+        $this->auth    = $auth;
     }
 
     /**
@@ -26,11 +34,6 @@ class AnexosController extends Controller
      */
     public function index()
     {
-        // $expire  = new DateTime('2023-12-31');
-        // $storage = $this->storage->getBucket()->object('Images/cafe.jpg');
-
-        // $image = $storage->signedUrl($expire);
-        // dd($image);
         return view('anexos::index');
     }
 
@@ -40,7 +43,7 @@ class AnexosController extends Controller
      */
     public function create()
     {
-        $usuarios = Usuario::pluck('id_usuarios', 'no_usuario');
+        $usuarios = Usuario::pluck('id_usuario', 'no_usuario');
 
         return view('anexos::create', compact('usuarios'));
     }
@@ -52,7 +55,15 @@ class AnexosController extends Controller
      */
     public function store(AnexosCreateRequest $request)
     {
-        return $this->service->store($request, $this->storage);
+        $file      = $request->file('vl_arquivo');
+        $extension = $file->getClientOriginalExtension();
+
+        if (!in_array($extension, ['jpg', 'png', 'jpge'])) {
+            Alert::alert('Erro', 'São somente aceitos arquivos com extenções jpg e png', 'error');
+            return back()->withInput();
+        }
+
+        return $this->service->store($request, $this->storage, $this->auth);
     }
 
     /**
@@ -62,7 +73,11 @@ class AnexosController extends Controller
      */
     public function show($id)
     {
-        return view('anexos::show');
+        $anexo = Anexo::where('id_anexo', '=', $id)->with('usuario')->first();
+        // $arr   = explode('\\', $anexo->ds_link);
+        $image = $anexo->ds_link;
+
+        return view('anexos::show', compact('anexo', 'image'));
     }
 
     /**
@@ -72,7 +87,10 @@ class AnexosController extends Controller
      */
     public function edit($id)
     {
-        return view('anexos::edit');
+        $usuarios = Usuario::pluck('id_usuario', 'no_usuario');
+        $anexo    = Anexo::where('id_anexo', '=', $id)->with('usuario')->first();
+
+        return view('anexos::edit', compact('anexo', 'usuarios'));
     }
 
     /**
@@ -83,7 +101,7 @@ class AnexosController extends Controller
      */
     public function update(AnexosUpdateRequest $request, $id)
     {
-        return $this->service->update($request, $id);
+        return $this->service->update($request, $id, $this->storage, $this->auth->signInAnonymously());
     }
 
     /**
@@ -93,7 +111,7 @@ class AnexosController extends Controller
      */
     public function destroy($id)
     {
-        return $this->service->destroy($id);
+        return $this->service->destroy($id, $this->storage, $this->auth->signInAnonymously());
     }
 
     public function search(Request $request)

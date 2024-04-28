@@ -24,15 +24,15 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-4 form-group">
-                                <label for="no_usuario">Nome</label>
+                                <label for="no_usuario">Nome <span class="text-danger">*</span></label>
                                 <input type="text" name="no_usuario" id="no_usuario" class="form-control" value="{{ old('no_usuario') }}">
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for="ds_email">E-mail</label>
+                                <label for="ds_email">E-mail <span class="text-danger">*</span></label>
                                 <input type="email" name="ds_email" id="ds_email" class="form-control" value="{{ old('ds_email') }}">
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for="ds_senha">Senha</label>
+                                <label for="ds_senha">Senha <span class="text-danger">*</span></label>
                                 <input type="password" name="ds_senha" id="ds_senha" class="form-control" value="{{ old('ds_senha') }}">
                             </div>
                         </div>

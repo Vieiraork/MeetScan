@@ -6,8 +6,8 @@
 #include <MFRC522.h>
 #include <SPI.h>
 
-const char* rede      = "";
-const char* senha     = "";
+const char* rede      = "WILLIAM OIFIBRA";
+const char* senha     = "0322231628";
 const uint8_t RST_PIN = D3;
 const uint8_t SS_PIN  = D4; 
 

@@ -9,7 +9,7 @@
         <div class="container">
             <div class="card card-outline card-primary">
                 <div class="card-body">
-                    <form action="{{ route('login') }}" method="POST">
+                    <form action="{{ route('login-post') }}" method="POST">
                         @csrf
                         @if ($errors->any())
                             <div class = "alert alert-danger" role = "alert">

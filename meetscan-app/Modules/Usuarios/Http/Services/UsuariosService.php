@@ -21,13 +21,12 @@ class UsuariosService
                 'ds_email'    => $request->ds_email,
                 'ds_senha'    => $request->ds_senha,
                 'st_status'   => Usuario::ATIVO,
-                'dt_registro' => Carbon::now(),
+                'dt_inclusao' => Carbon::now(),
                 'cd_perfil'   => Usuario::MORADOR
             ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
             Alert::alert('Erro', 'Não foi possível cadastrar o usuário, verifique', 'error');
             return back()->withInput();
         }
@@ -38,7 +37,7 @@ class UsuariosService
 
     public function update(UsuarioUpdateRequest $request, $id_usuario)
     {
-        $usuario = Usuario::where('id_usuarios', '=', $id_usuario)->first();
+        $usuario = Usuario::where('id_usuario', '=', $id_usuario)->first();
 
         try {
             DB::beginTransaction();
@@ -92,16 +91,15 @@ class UsuariosService
 
     public function change($id)
     {
+        $usuario = Usuario::where('id_usuario', '=', $id)->first();
+
         try {
             DB::beginTransaction();
-            $usuario = Usuario::where('id_usuarios', '=', $id)->first();
 
-            $st_status = $usuario->st_status == 'A' ? 'I' : 'A';
-
-            Usuario::where('id_usuarios', '=', $id)->update([
-                'st_status'    => $st_status,
-                'dt_alteracao' => Carbon::now()
-            ]);
+            $usuario->st_status    = $usuario->st_status == 'A' ? 'I' : 'A';
+            $usuario->dt_alteracao = Carbon::now();
+            $usuario->update();
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
