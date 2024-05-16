@@ -2,6 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <ESP8266HTTPClient.h>
+#include <ESP8266WebServer.h>
 #include <WiFiClient.h>
 #include <MFRC522.h>
 #include <SPI.h>
@@ -9,16 +10,21 @@
 const char* rede      = "WILLIAM OIFIBRA";
 const char* senha     = "0322231628";
 const uint8_t RST_PIN = D3;
-const uint8_t SS_PIN  = D4; 
+const uint8_t SS_PIN  = D4;
+const String conteudo = "text/html";
 
 ESP8266WiFiMulti WiFiMulti;
 MFRC522 rfid(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
+ESP8266WebServer server(1222);
+
+//IPAddress ip(192,168,0,122); //COLOQUE UMA FAIXA DE IP DISPONÍVEL DO SEU ROTEADOR. EX: 192.168.1.110 **** ISSO VARIA, NO MEU CASO É: 192.168.0.175
+//IPAddress gateway(192,168,0,1); //GATEWAY DE CONEXÃO (ALTERE PARA O GATEWAY DO SEU ROTEADOR)
+//IPAddress subnet(255,255,255,0); //MASCARA DE REDE
 
 String tag;
 
 void setup() {
-  int loadDot = 0;
   Serial.begin(115200);
   SPI.begin();
   rfid.PCD_Init();
@@ -40,18 +46,20 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    
-    loadDot++;
   }
   Serial.print("");
   Serial.print("Ip local: ");
   Serial.println(WiFi.localIP());
+
+  server.on("/", retornaString);
+  server.begin();
 }
 
 void loop() {
     WiFiClient client;
-
     HTTPClient http;
+    server.handleClient();
+
     if (!rfid.PICC_IsNewCardPresent())
       return;
     
@@ -61,8 +69,10 @@ void loop() {
       }
     }
 
+    Serial.println("Tag: " + tag);
+
     if (tag != "") {
-      if (http.begin(client, "http://192.168.100.7/meetscan-app/public/api/codigos/" + tag)) {
+      if (http.begin(client, "http://192.168.100.8/meetscan-app/public/api/codigos/" + tag)) {
         int code = http.GET();
         String res = http.getString();
 
@@ -84,4 +94,8 @@ void loop() {
     }
 
     delay(5000);
+}
+
+void retornaString() {
+  server.send(200, conteudo, "Funcionou o servidor");
 }

@@ -21,7 +21,7 @@ class CodigosService
             Codigo::create([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
                 'dt_inclusao'      => Carbon::now(),
-                'id_usuario'       => Auth::user()->id_usuario
+                'id_usuario'       => $request->id_usuario
             ]);
             DB::commit();
         } catch (\Exception $e) {
@@ -41,7 +41,7 @@ class CodigosService
             DB::beginTransaction();
             Codigo::where('id_codigo_acesso', '=', $id)->update([
                 'ds_codigo_acesso' => $request->ds_codigo_acesso,
-                'id_usuario'       => Auth::user()->id_usuario,
+                'id_usuario'       => $request->id_usuario,
                 'dt_alteracao'     => Carbon::now()
             ]);
             DB::commit();
