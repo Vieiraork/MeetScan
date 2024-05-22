@@ -11,16 +11,13 @@ const char* rede      = "WILLIAM OIFIBRA";
 const char* senha     = "0322231628";
 const uint8_t RST_PIN = D3;
 const uint8_t SS_PIN  = D4;
-const String conteudo = "text/html";
+const uint8_t TRANCA  = D2;
+const String CONTEUDO = "text/html";
 
 ESP8266WiFiMulti WiFiMulti;
 MFRC522 rfid(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 ESP8266WebServer server(1222);
-
-//IPAddress ip(192,168,0,122); //COLOQUE UMA FAIXA DE IP DISPONÍVEL DO SEU ROTEADOR. EX: 192.168.1.110 **** ISSO VARIA, NO MEU CASO É: 192.168.0.175
-//IPAddress gateway(192,168,0,1); //GATEWAY DE CONEXÃO (ALTERE PARA O GATEWAY DO SEU ROTEADOR)
-//IPAddress subnet(255,255,255,0); //MASCARA DE REDE
 
 String tag;
 
@@ -53,6 +50,7 @@ void setup() {
 
   server.on("/", retornaString);
   server.begin();
+  pinMode(TRANCA, OUTPUT);
 }
 
 void loop() {
@@ -76,17 +74,15 @@ void loop() {
         int code = http.GET();
         String res = http.getString();
 
-        if (code > 0) {
-          Serial.print("Http code: ");
-          Serial.println(code);
-          Serial.print("Response: ");
-          Serial.println(res);
+        Serial.println("codigo: " + code);
+        Serial.println("Resposta: " + res);
+
+        if (res == "Sucesso ao mandar mensagem de notificação") {
+          abreFechaTranca();
         } else {
-          Serial.print("Error: ");
-          Serial.println(res);
+          Serial.println("Erro: Não foi possivel conectar no servidor web para realizar o reconhecimento da tag RFID");
         }
 
-        Serial.println(tag);
         tag = "";
         rfid.PICC_HaltA();
         rfid.PCD_StopCrypto1();
@@ -97,5 +93,14 @@ void loop() {
 }
 
 void retornaString() {
-  server.send(200, conteudo, "Funcionou o servidor");
+  server.send(200, CONTEUDO, "Abertura de tranca realizada");
+  abreFechaTranca();
+}
+
+void abreFechaTranca() {
+  Serial.println("Realizando a abertura da tranca");
+  digitalWrite(TRANCA, HIGH);
+  delay(5000);
+  Serial.println("Realizando o fechamento da tranca");
+  digitalWrite(TRANCA, LOW);
 }

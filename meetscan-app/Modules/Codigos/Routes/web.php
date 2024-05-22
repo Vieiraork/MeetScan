@@ -26,3 +26,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/api/codigos/{ds_codigo}', 'CodigosApiController@index');
+Route::get('/api/faces', 'CodigosApiController@create');
