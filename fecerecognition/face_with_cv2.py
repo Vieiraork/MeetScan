@@ -5,17 +5,7 @@ import os, sys
 import numpy as np
 import math
 import threading
-
-
-def face_confidence(face_distance, face_match_threshold=0.6):
-    range = (1.0 - face_match_threshold)
-    linear_val = (1.0 - face_distance) / (range * 2.0)
-
-    if face_distance > face_match_threshold:
-        return f'{str(round(linear_val * 100, 2))}%'
-    else:
-        value = (linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))) * 100
-        return f'{round(value, 2)}%'
+from rest_controller import RestController
 
 
 class FaceRecognition:
@@ -25,19 +15,23 @@ class FaceRecognition:
     known_face_encodings  = []
     known_face_names      = []
     process_current_frame = True
+    all_faces_from_rest   = []
 
 
     def __init__(self) -> None:
+        self.__rest = RestController()
+        self.all_faces_from_rest = self.__rest.get_all_faces()
         self.__encode_faces()
     
 
     def __encode_faces(self):
-        for image in os.listdir('faces'):
-            face_image = face_recognition.load_image_file(f'faces/{image}')
+        for image in self.all_faces_from_rest:
+            face_image = face_recognition.load_image_file(image['ds_caminho'])
             face_encoding = face_recognition.face_encodings(face_image)[0]
 
             self.known_face_encodings.append(face_encoding)
             self.known_face_names.append(image)
+
         print(self.known_face_names)
     
 
@@ -56,9 +50,10 @@ class FaceRecognition:
 
                 face_distances   = face_recognition.face_distance(self.known_face_encodings, face_encoding)
                 best_match_index = int(face_distances)
-                print(best_match_index)
+                print('Face reconhecida com sucesso' if best_match_index == 0 else 'Face não foi reconhecida')
 
-                # if matches[best_match_index]:
+                if matches[best_match_index]:
+                    self.__rest.open_door()
                     # name       = self.known_face_names[best_match_index]
                     # confidence = face_confidence(face_distances[best_match_index])
                     # print(matches[best_match_index])

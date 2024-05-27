@@ -14,3 +14,5 @@
 // Route::middleware('auth:api')->get('/anexos', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::get('anexos/search', 'AnexosApiController@search');

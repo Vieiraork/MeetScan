@@ -26,8 +26,6 @@ void setup() {
   SPI.begin();
   rfid.PCD_Init();
 
-  // Serial.setDebugOutput(true);
-
   Serial.println();
   Serial.println();
   Serial.println();
@@ -70,7 +68,7 @@ void loop() {
     Serial.println("Tag: " + tag);
 
     if (tag != "") {
-      if (http.begin(client, "http://192.168.100.8/meetscan-app/public/api/codigos/" + tag)) {
+      if (http.begin(client, "http://192.168.100.7/meetscan-app/public/api/codigos/" + tag)) {
         int code = http.GET();
         String res = http.getString();
 

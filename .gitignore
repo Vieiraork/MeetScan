@@ -3,3 +3,5 @@
 */venv
 */recognitionwithcuda
 /meetscan-app-old
+/meetscan-app/public/images
+*/__pycache__
