@@ -20,7 +20,7 @@ class RestController:
         res = None
 
         try:
-            res = requests.get('http://192.168.100.11:1222')
+            res = requests.get('http://192.168.100.2:1222')
         except Exception as e:
             print('Não foi possível chegar no endereço')
         
